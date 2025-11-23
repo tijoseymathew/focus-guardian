@@ -1,11 +1,30 @@
 // Options page script
 let trackedSites = [];
+let thresholds = {
+  level1: 0,
+  level2: 15,
+  level3: 30,
+  level4: 60
+};
 
 // Load tracked sites
 function loadSites() {
   chrome.storage.local.get(['trackedSites'], (result) => {
     trackedSites = result.trackedSites || [];
     renderSiteList();
+  });
+}
+
+// Load thresholds
+function loadThresholds() {
+  chrome.storage.local.get(['thresholds'], (result) => {
+    if (result.thresholds) {
+      thresholds = result.thresholds;
+    }
+    // Update input fields
+    document.getElementById('level2Input').value = thresholds.level2;
+    document.getElementById('level3Input').value = thresholds.level3;
+    document.getElementById('level4Input').value = thresholds.level4;
   });
 }
 
@@ -88,6 +107,35 @@ function saveSites() {
   });
 }
 
+// Save thresholds to storage
+function saveThresholds() {
+  const level2 = parseInt(document.getElementById('level2Input').value) || 15;
+  const level3 = parseInt(document.getElementById('level3Input').value) || 30;
+  const level4 = parseInt(document.getElementById('level4Input').value) || 60;
+  
+  // Validate thresholds are in ascending order
+  if (level2 >= level3 || level3 >= level4) {
+    alert('Thresholds must be in ascending order:\nLevel 2 < Level 3 < Level 4\n\nExample: 15 < 30 < 60');
+    return;
+  }
+  
+  if (level2 < 1 || level3 < 1 || level4 < 1) {
+    alert('All thresholds must be at least 1 minute');
+    return;
+  }
+  
+  thresholds = {
+    level1: 0,
+    level2: level2,
+    level3: level3,
+    level4: level4
+  };
+  
+  chrome.storage.local.set({ thresholds }, () => {
+    showSuccessAlert();
+  });
+}
+
 // Show success alert
 function showSuccessAlert() {
   const alert = document.getElementById('successAlert');
@@ -104,6 +152,8 @@ document.getElementById('siteInput').addEventListener('keypress', (e) => {
     addSite();
   }
 });
+document.getElementById('saveThresholdsBtn').addEventListener('click', saveThresholds);
 
 // Initial load
 loadSites();
+loadThresholds();

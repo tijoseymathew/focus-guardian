@@ -4,6 +4,24 @@ let borderElement = null;
 let currentSeconds = 0;
 let updateInterval = null;
 let isTrackedSite = false;
+let thresholds = {
+  level1: 0,
+  level2: 15,
+  level3: 30,
+  level4: 60
+};
+
+// Load thresholds from storage
+async function loadThresholds() {
+  try {
+    const response = await chrome.runtime.sendMessage({ action: 'getThresholds' });
+    if (response && response.thresholds) {
+      thresholds = response.thresholds;
+    }
+  } catch (e) {
+    console.error('Focus Guardian: Error loading thresholds', e);
+  }
+}
 
 // Check if current site is tracked
 async function checkIfTracked() {
@@ -13,13 +31,13 @@ async function checkIfTracked() {
   return trackedSites.some(site => hostname.includes(site));
 }
 
-// Get escalation level based on time
+// Get escalation level based on time and thresholds
 function getEscalationLevel(seconds) {
   const minutes = seconds / 60;
-  if (minutes < 15) return 1;
-  if (minutes < 30) return 2;
-  if (minutes < 60) return 3;
-  return 4;
+  if (minutes >= thresholds.level4) return 4;
+  if (minutes >= thresholds.level3) return 3;
+  if (minutes >= thresholds.level2) return 2;
+  return 1;
 }
 
 // Format time display
@@ -97,6 +115,9 @@ async function initialize() {
   
   if (!isTrackedSite) return;
   
+  // Load thresholds
+  await loadThresholds();
+  
   // Create UI elements
   createTimer();
   createBorder();
@@ -140,6 +161,15 @@ chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (updateInterval) clearInterval(updateInterval);
       timerElement = null;
       borderElement = null;
+    }
+  }
+  
+  if (changes.thresholds) {
+    // Reload thresholds when they change
+    await loadThresholds();
+    // Update display with current seconds to reflect new levels
+    if (timerElement && borderElement) {
+      updateDisplay(currentSeconds);
     }
   }
 });

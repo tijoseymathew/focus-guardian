@@ -2,6 +2,7 @@
 let currentTabId = null;
 let currentStartTime = null;
 let trackedSites = [];
+let todayStartSeconds = 0; // Track seconds at the start of current session
 
 // Default tracked sites
 const DEFAULT_SITES = [
@@ -15,14 +16,25 @@ const DEFAULT_SITES = [
   'linkedin.com'
 ];
 
+// Default thresholds (in minutes)
+const DEFAULT_THRESHOLDS = {
+  level1: 0,
+  level2: 15,
+  level3: 30,
+  level4: 60
+};
+
 // Initialize storage on install
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(['trackedSites', 'dailyData'], (result) => {
+  chrome.storage.local.get(['trackedSites', 'dailyData', 'thresholds'], (result) => {
     if (!result.trackedSites) {
       chrome.storage.local.set({ trackedSites: DEFAULT_SITES });
     }
     if (!result.dailyData) {
       chrome.storage.local.set({ dailyData: {} });
+    }
+    if (!result.thresholds) {
+      chrome.storage.local.set({ thresholds: DEFAULT_THRESHOLDS });
     }
   });
 });
@@ -81,6 +93,13 @@ function startTracking(tabId, url) {
   if (isTrackedSite(url)) {
     currentTabId = tabId;
     currentStartTime = Date.now();
+    
+    // Load today's total seconds when starting tracking
+    const today = getTodayKey();
+    chrome.storage.local.get(['dailyData'], (result) => {
+      const dailyData = result.dailyData || {};
+      todayStartSeconds = dailyData[today]?.totalSeconds || 0;
+    });
   }
 }
 
@@ -160,8 +179,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.get(['dailyData'], (result) => {
       const dailyData = result.dailyData || {};
       const todayData = dailyData[today] || { totalSeconds: 0 };
-      sendResponse({ seconds: todayData.totalSeconds });
+      
+      // Add current session time if actively tracking
+      let totalSeconds = todayData.totalSeconds;
+      if (currentStartTime && currentTabId) {
+        const currentSessionSeconds = Math.floor((Date.now() - currentStartTime) / 1000);
+        totalSeconds += currentSessionSeconds;
+      }
+      
+      sendResponse({ seconds: totalSeconds });
     });
     return true; // Will respond asynchronously
+  } else if (request.action === 'getThresholds') {
+    chrome.storage.local.get(['thresholds'], (result) => {
+      sendResponse({ thresholds: result.thresholds || DEFAULT_THRESHOLDS });
+    });
+    return true;
   }
 });
