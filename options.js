@@ -7,6 +7,12 @@ let thresholds = {
   level4: 60
 };
 
+// Helper function to get today's date key
+function getTodayKey() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
+
 // Load tracked sites
 function loadSites() {
   chrome.storage.local.get(['trackedSites'], (result) => {
@@ -168,6 +174,32 @@ function showSuccessAlert() {
   }, 3000);
 }
 
+// Reset today's data with confirmation
+function resetToday() {
+  const confirmInput = document.getElementById('resetConfirmInput');
+  const inputText = confirmInput.value.trim().toLowerCase();
+
+  if (inputText !== 'i wasted time') {
+    alert('You must type "I WASTED TIME" exactly to confirm reset.');
+    return;
+  }
+
+  const today = getTodayKey();
+  chrome.storage.local.get(['dailyData'], (result) => {
+    const dailyData = result.dailyData || {};
+    if (dailyData[today]) {
+      dailyData[today].totalSeconds = 0;
+      chrome.storage.local.set({ dailyData }, () => {
+        confirmInput.value = '';
+        showSuccessAlert();
+        alert('Today\'s counter has been reset to 0.');
+      });
+    } else {
+      alert('No data to reset for today.');
+    }
+  });
+}
+
 // Event listeners
 document.getElementById('addBtn').addEventListener('click', addSite);
 document.getElementById('siteInput').addEventListener('keypress', (e) => {
@@ -176,6 +208,7 @@ document.getElementById('siteInput').addEventListener('keypress', (e) => {
   }
 });
 document.getElementById('saveThresholdsBtn').addEventListener('click', saveThresholds);
+document.getElementById('resetBtn').addEventListener('click', resetToday);
 
 // Initial load
 loadSites();

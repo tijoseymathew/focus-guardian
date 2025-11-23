@@ -32,14 +32,6 @@
     .header h1 {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .header p {
-      font-size: 13px;
-      opacity: 0.9;
-      font-style: italic;
-      margin-top: 4px;
     }
 
     .gear-btn {
@@ -56,7 +48,6 @@
 
     .gear-btn:hover {
       background: rgba(255, 255, 255, 0.3);
-      transform: rotate(90deg);
     }
 
     .content {
@@ -232,16 +223,6 @@
       box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
     }
 
-    .btn-secondary {
-      background: white;
-      color: #667eea;
-      border: 2px solid #667eea;
-    }
-
-    .btn-secondary:hover {
-      background: #f9fafb;
-    }
-
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -252,6 +233,24 @@
       font-size: 48px;
       margin-bottom: 12px;
     }
+
+    .motivation-card {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #667eea;
+    }
+
+    .motivation-text {
+      font-size: 15px;
+      color: #1e40af;
+      font-weight: 600;
+      line-height: 1.6;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -259,13 +258,16 @@
     <div class="header-top">
       <div>
         <h1>🎯 Focus Guardian</h1>
-        <p id="motivationalQuote">Every minute counts</p>
       </div>
       <button class="gear-btn" id="settingsBtn" title="Settings">⚙️</button>
     </div>
   </div>
 
   <div class="content">
+    <div class="motivation-card">
+      <div class="motivation-text" id="motivationalQuote">Every minute counts</div>
+    </div>
+
     <div class="stat-card">
       <div class="stat-label" id="statLabel">Time Spent Today</div>
       <div class="stat-value" id="todayTime">0m</div>
@@ -292,22 +294,6 @@
 
     <div class="actions">
       <button class="btn btn-primary" id="viewHistoryBtn">View History</button>
-    </div>
-    
-    <div class="reset-section" id="resetSection">
-      <details>
-        <summary class="reset-toggle">⚠️ Reset today's counter (advanced)</summary>
-        <div class="reset-content">
-          <p style="margin-bottom: 12px; font-size: 13px; color: #6b7280;">
-            Resetting defeats the purpose. Are you sure?
-          </p>
-          <p style="margin-bottom: 12px; font-size: 12px; color: #dc2626; font-weight: 600;">
-            Type "I WASTED TIME" below to confirm:
-          </p>
-          <input type="text" id="resetConfirmInput" placeholder="Type here..." style="width: 100%; padding: 8px; border: 2px solid #e5e7eb; border-radius: 6px; margin-bottom: 8px;">
-          <button class="btn btn-danger" id="resetBtn" style="width: 100%;">Reset Counter</button>
-        </div>
-      </details>
     </div>
   </div>
 

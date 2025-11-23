@@ -280,6 +280,50 @@
       color: #6b7280;
       font-weight: 500;
     }
+
+    .reset-section {
+      margin-top: 20px;
+    }
+
+    .reset-toggle {
+      font-size: 14px;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 12px;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .reset-toggle:hover {
+      color: #6b7280;
+    }
+
+    .reset-content {
+      margin-top: 16px;
+      padding: 20px;
+      background: #fef2f2;
+      border-radius: 8px;
+      border: 2px solid #fecaca;
+    }
+
+    .reset-content p {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .reset-content input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .reset-content input:focus {
+      outline: none;
+      border-color: #dc2626;
+    }
   </style>
 </head>
 <body>
@@ -363,6 +407,29 @@
 
       <div class="site-list" id="siteList">
         <!-- Sites will be inserted here -->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">⚠️ Reset Today's Counter</div>
+      <div class="section-description">
+        Use this section if you need to reset today's time counter. Note: Resetting defeats the purpose of awareness.
+      </div>
+
+      <div class="reset-section">
+        <details>
+          <summary class="reset-toggle">⚠️ Show reset controls (advanced)</summary>
+          <div class="reset-content">
+            <p style="font-size: 14px; color: #6b7280;">
+              Resetting defeats the purpose of building awareness. Are you sure you want to do this?
+            </p>
+            <p style="font-size: 13px; color: #dc2626; font-weight: 600;">
+              Type "I WASTED TIME" below to confirm:
+            </p>
+            <input type="text" id="resetConfirmInput" placeholder="Type here...">
+            <button class="btn btn-danger" id="resetBtn">Reset Today's Counter</button>
+          </div>
+        </details>
       </div>
     </div>
 
