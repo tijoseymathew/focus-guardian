@@ -46,6 +46,10 @@
 }
 
 /* Level 1: 0-15 minutes - Subtle */
+#focus-guardian-timer.level-1 {
+  display: none; /* Hide timer at level 1 - surprise factor! */
+}
+
 #focus-guardian-timer.level-1 .timer-content {
   background: rgba(255, 255, 255, 0.95);
 }

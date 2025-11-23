@@ -79,6 +79,63 @@ function createBorder() {
   document.body.appendChild(borderElement);
 }
 
+// Show brief reflection moment on entry (only once per session)
+let hasShownReflection = false;
+function showReflectionMoment() {
+  if (hasShownReflection) return;
+  hasShownReflection = true;
+  
+  const reflections = [
+    "⏰ Time tracking is active. Make it count.",
+    "🎯 Is this where you want to be right now?",
+    "💭 Ask yourself: Is this the best use of my time?",
+    "🚀 Your future self is watching. Make them proud.",
+    "⏳ Every minute here is a minute not spent on your goals.",
+  ];
+  
+  const reflection = reflections[Math.floor(Math.random() * reflections.length)];
+  
+  // Create subtle notification
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: rgba(102, 126, 234, 0.95);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    z-index: 2147483647;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 4.7s;
+    pointer-events: none;
+  `;
+  notification.textContent = reflection;
+  
+  // Add animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+  document.body.appendChild(notification);
+  
+  // Remove after animation
+  setTimeout(() => {
+    notification.remove();
+    style.remove();
+  }, 5000);
+}
+
 // Update timer display and styling based on time
 function updateDisplay(seconds) {
   if (!timerElement || !borderElement) return;
@@ -117,6 +174,9 @@ async function initialize() {
   
   // Load thresholds
   await loadThresholds();
+  
+  // Show reflection moment (once per page load)
+  showReflectionMoment();
   
   // Create UI elements
   createTimer();

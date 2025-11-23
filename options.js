@@ -91,12 +91,35 @@ function addSite() {
   showSuccessAlert();
 }
 
-// Remove site
+// Remove site with reflection prompt
 function removeSite(index) {
-  if (confirm(`Remove ${trackedSites[index]} from tracking?`)) {
-    trackedSites.splice(index, 1);
-    saveSites();
-    showSuccessAlert();
+  const site = trackedSites[index];
+  
+  // Reflection prompts to create friction
+  const reflections = [
+    `Removing ${site} from tracking means you won't see how much time you spend there.\n\nAre you removing it because:\n- You genuinely don't waste time there anymore? ✅\n- You want to avoid accountability? ⚠️\n\nBe honest with yourself.`,
+    `Before removing ${site}...\n\nAsk yourself: Am I trying to hide my behavior from myself?\n\nTrue progress comes from awareness, not avoidance.`,
+    `Removing ${site} won't make the time-wasting disappear.\n\nIt just makes it invisible.\n\nAre you sure that's what you want?`,
+    `Think about why you're removing ${site}:\n\n✅ "I don't use this site anymore"\n⚠️ "I don't want to see how much time I waste there"\n\nWhich one is it?`
+  ];
+  
+  const randomReflection = reflections[Math.floor(Math.random() * reflections.length)];
+  
+  // Show reflection, then ask for confirmation
+  if (confirm(randomReflection)) {
+    // Second confirmation with commitment
+    const commitment = prompt(
+      `Last chance to reconsider.\n\nIf you're removing ${site} because you've genuinely stopped wasting time there, type "COMMITTED" below:`,
+      ''
+    );
+    
+    if (commitment && commitment.toUpperCase().trim() === 'COMMITTED') {
+      trackedSites.splice(index, 1);
+      saveSites();
+      showSuccessAlert();
+    } else {
+      alert('Site not removed. Good choice - accountability helps growth! 💪');
+    }
   }
 }
 
