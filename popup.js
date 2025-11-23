@@ -207,31 +207,7 @@ function loadData() {
   });
 }
 
-// Reset today's data with confirmation
-function resetToday() {
-  const confirmInput = document.getElementById('resetConfirmInput');
-  const inputText = confirmInput.value.trim().toLowerCase();
-  
-  if (inputText !== 'i wasted time') {
-    alert('You must type "I WASTED TIME" exactly to confirm reset.');
-    return;
-  }
-  
-  const today = getTodayKey();
-  chrome.storage.local.get(['dailyData'], (result) => {
-    const dailyData = result.dailyData || {};
-    if (dailyData[today]) {
-      dailyData[today].totalSeconds = 0;
-      chrome.storage.local.set({ dailyData }, () => {
-        confirmInput.value = '';
-        loadData();
-      });
-    }
-  });
-}
-
 // Event listeners
-document.getElementById('resetBtn').addEventListener('click', resetToday);
 document.getElementById('settingsBtn').addEventListener('click', () => {
   chrome.runtime.openOptionsPage();
 });

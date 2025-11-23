@@ -16,27 +16,47 @@ A Chrome extension that helps you stay aware of time spent on distracting websit
 
 ## Installation
 
-### Method 1: Load Unpacked Extension (Developer Mode)
+### For Beginners: Quick Installation Guide
 
-1. **Download the Extension**
-   - Download all files from the `focus-guardian` folder
+**Step 1: Download the Extension**
+- [**Download ZIP**](https://github.com/tijoseymathew/focus-guardian/archive/refs/heads/main.zip) ← Click here to download
+- Once downloaded, extract/unzip the file to a folder on your computer
+- Remember where you saved it (e.g., Downloads folder)
 
-2. **Open Chrome Extensions Page**
-   - Open Chrome/Brave/Edge
-   - Navigate to `chrome://extensions/`
-   - Or click the three dots menu → More Tools → Extensions
+**Step 2: Open Chrome Extensions Page**
+- Open Google Chrome (or Brave/Edge browser)
+- In the address bar, type: `chrome://extensions/` and press Enter
+- OR click the three dots menu (⋮) at top-right → More Tools → Extensions
 
-3. **Enable Developer Mode**
-   - Toggle "Developer mode" in the top-right corner
+**Step 3: Enable Developer Mode**
+- Look at the top-right corner of the Extensions page
+- Find the toggle switch that says "Developer mode"
+- Click it to turn it ON (it should turn blue)
 
-4. **Load the Extension**
-   - Click "Load unpacked"
-   - Select the `focus-guardian` folder
-   - The extension should now appear in your extensions list
+**Step 4: Load the Extension**
+- Click the "Load unpacked" button that appears after enabling Developer Mode
+- A file browser window will open
+- Navigate to where you extracted the ZIP file
+- Select the `focus-guardian-main` folder (or `focus-guardian` folder)
+- Click "Select Folder" or "Open"
 
-5. **Pin the Extension** (Optional)
-   - Click the puzzle piece icon in the Chrome toolbar
-   - Find "Focus Guardian" and click the pin icon
+**Step 5: Start Using Focus Guardian!**
+- The extension icon should now appear in your Chrome toolbar
+- If you don't see it, click the puzzle piece icon 🧩 in your toolbar
+- Find "Focus Guardian" and click the pin icon 📌 to keep it visible
+- Click the Focus Guardian icon to see your stats
+- Click the settings gear ⚙️ to customize which websites to track
+
+### Alternative: Install from GitHub
+
+If you're comfortable with Git:
+
+```bash
+git clone https://github.com/tijoseymathew/focus-guardian.git
+cd focus-guardian
+```
+
+Then follow steps 2-5 above to load it in Chrome
 
 ## Usage
 
