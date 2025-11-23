@@ -1,0 +1,208 @@
+/* Focus Guardian Styles */
+
+/* Timer Display */
+#focus-guardian-timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.timer-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.timer-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.timer-display {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Border Glow */
+#focus-guardian-border {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2147483646;
+  transition: all 0.3s ease;
+}
+
+/* Level 1: 0-15 minutes - Subtle */
+#focus-guardian-timer.level-1 .timer-content {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#focus-guardian-timer.level-1 .timer-label {
+  color: #666;
+}
+
+#focus-guardian-timer.level-1 .timer-display {
+  color: #333;
+}
+
+#focus-guardian-border.level-1 {
+  box-shadow: inset 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Level 2: 15-30 minutes - Warning */
+#focus-guardian-timer.level-2 {
+  transform: scale(1.1);
+}
+
+#focus-guardian-timer.level-2 .timer-content {
+  background: rgba(254, 243, 199, 0.95);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+}
+
+#focus-guardian-timer.level-2 .timer-label {
+  color: #92400e;
+}
+
+#focus-guardian-timer.level-2 .timer-display {
+  color: #b45309;
+}
+
+#focus-guardian-border.level-2 {
+  box-shadow: inset 0 0 0 4px rgba(245, 158, 11, 0.5);
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    box-shadow: inset 0 0 0 4px rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    box-shadow: inset 0 0 0 4px rgba(245, 158, 11, 0.7);
+  }
+}
+
+/* Level 3: 30-60 minutes - Urgent */
+#focus-guardian-timer.level-3 {
+  transform: scale(1.2);
+  animation: shake-subtle 3s ease-in-out infinite;
+}
+
+#focus-guardian-timer.level-3 .timer-content {
+  background: rgba(254, 226, 226, 0.95);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+}
+
+#focus-guardian-timer.level-3 .timer-label {
+  color: #991b1b;
+}
+
+#focus-guardian-timer.level-3 .timer-display {
+  color: #dc2626;
+}
+
+#focus-guardian-border.level-3 {
+  box-shadow: inset 0 0 0 6px rgba(239, 68, 68, 0.6);
+  animation: pulse-urgent 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-urgent {
+  0%, 100% {
+    box-shadow: inset 0 0 0 6px rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    box-shadow: inset 0 0 0 6px rgba(239, 68, 68, 0.9);
+  }
+}
+
+@keyframes shake-subtle {
+  0%, 100% {
+    transform: scale(1.2) translateX(0);
+  }
+  25% {
+    transform: scale(1.2) translateX(-2px);
+  }
+  75% {
+    transform: scale(1.2) translateX(2px);
+  }
+}
+
+/* Level 4: 60+ minutes - Critical */
+#focus-guardian-timer.level-4 {
+  transform: scale(1.3);
+  animation: shake-intense 2s ease-in-out infinite;
+}
+
+#focus-guardian-timer.level-4 .timer-content {
+  background: rgba(220, 38, 38, 0.95);
+  box-shadow: 0 4px 24px rgba(220, 38, 38, 0.6);
+}
+
+#focus-guardian-timer.level-4 .timer-label {
+  color: #fff;
+  animation: blink 1s ease-in-out infinite;
+}
+
+#focus-guardian-timer.level-4 .timer-display {
+  color: #fff;
+  animation: blink 1s ease-in-out infinite;
+}
+
+#focus-guardian-border.level-4 {
+  box-shadow: inset 0 0 0 8px rgba(220, 38, 38, 0.8),
+              inset 0 0 20px 0 rgba(220, 38, 38, 0.5);
+  animation: pulse-critical 1s ease-in-out infinite;
+}
+
+@keyframes pulse-critical {
+  0%, 100% {
+    box-shadow: inset 0 0 0 8px rgba(220, 38, 38, 0.8),
+                inset 0 0 20px 0 rgba(220, 38, 38, 0.5);
+  }
+  50% {
+    box-shadow: inset 0 0 0 8px rgba(220, 38, 38, 1),
+                inset 0 0 30px 0 rgba(220, 38, 38, 0.8);
+  }
+}
+
+@keyframes shake-intense {
+  0%, 100% {
+    transform: scale(1.3) translateX(0) rotate(0deg);
+  }
+  10% {
+    transform: scale(1.3) translateX(-3px) rotate(-1deg);
+  }
+  20% {
+    transform: scale(1.3) translateX(3px) rotate(1deg);
+  }
+  30% {
+    transform: scale(1.3) translateX(-3px) rotate(-1deg);
+  }
+  40% {
+    transform: scale(1.3) translateX(3px) rotate(1deg);
+  }
+  50% {
+    transform: scale(1.3) translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes blink {
+  0%, 49%, 100% {
+    opacity: 1;
+  }
+  50%, 99% {
+    opacity: 0.5;
+  }
+}
